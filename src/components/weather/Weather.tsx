@@ -1,45 +1,64 @@
-import { Image } from "../../core";
+import { useState } from "react";
+import { GetWeatherIcon, getTodaysDate } from "../../core";
 
-const Weather = () => {
+const Weather = ({ ...props }) => {
+  const [c, setC] = useState(true);
+  const { weather, main, wind, icon } = props;
+  const celsius = Math.round(main?.temp);
+  const fahrenheit = Math.round((main?.temp * 9) / 5 + 32);
   return (
     <>
-      <div className="bg-white rounded-xl p-10 max-w-sm text-center shadow-xl">
-        <p className="text-3xl text-gray-700 font-bold mb-3 font-pt">
-          March 30, 2024
+      <div className="max-w-sm p-10 text-center bg-white shadow-xl rounded-xl">
+        <p className="mb-1 text-3xl font-bold text-gray-700 font-pt">
+          {getTodaysDate()}
         </p>
-        <div className="flex items-start justify-center gap-4 relative">
-          <Image
-            src="/animated/cloudy-day-1.svg"
-            alt="weather"
-            className="absolute -left-8 top-0 !size-16"
-          />
-          <p className="text-6xl text-gray-700 font-bold font-pt">93.0</p>
-          <div className="text-2xl text-gray-400 font-medium">
-            <p>°C</p>
-            <p>°F</p>
+        <p className="mb-2 text-sm text-gray-500">
+          Today's {weather && weather[0].description} weather
+        </p>
+        <div className="relative flex items-start justify-center gap-4">
+          <div className="absolute -left-8 top-0 !size-16">
+            {GetWeatherIcon(icon, "!size-16")}
+          </div>
+          <p className="text-6xl font-bold text-gray-700 font-pt">
+            {c ? celsius : fahrenheit}°
+          </p>
+          <div className="text-2xl font-medium text-gray-400 cursor-pointer">
+            <p
+              className={`${c && "text-gray-600 font-bold"}`}
+              onClick={() => setC(true)}
+            >
+              °C
+            </p>
+            <p
+              className={`${!c && "text-gray-600 font-bold"}`}
+              onClick={() => setC(false)}
+            >
+              °F
+            </p>
           </div>
         </div>
-        <p className="text-sm text-gray-500 font-bold capitalize">
-          min: <span className="font-pt">89.0 </span>/ max:
-          <span className="font-pt"> 90 </span>
+        <p className="text-sm font-bold text-gray-500 capitalize">
+          min: <span className="font-pt">{c ? celsius : fahrenheit}°C </span>/
+          max:
+          <span className="font-pt"> {c ? celsius : fahrenheit}°C</span>
         </p>
         <div className="flex items-center justify-center gap-5 text-lg font-semibold text-gray-500 ">
           <div>
             <p>Temp</p>
-            <span className="inline-block text-gray-500 text-sm font-pt font-semibold">
-              32°C
+            <span className="inline-block text-sm font-semibold text-gray-500 font-pt">
+              {c ? celsius : fahrenheit}°
             </span>
           </div>
           <div>
             <p>Wind</p>
-            <span className="inline-block text-gray-500 text-sm font-pt font-semibold">
-              14.4km/h
+            <span className="inline-block text-sm font-semibold text-gray-500 font-pt">
+              {wind?.speed || 0}km/h
             </span>
           </div>
           <div>
             <p>Humidity</p>
-            <span className="inline-block text-gray-500 text-sm font-pt font-semibold">
-              32.5%
+            <span className="inline-block text-sm font-semibold text-gray-500 font-pt">
+              {Math.round(main?.humidity) || 28}°%
             </span>
           </div>
         </div>

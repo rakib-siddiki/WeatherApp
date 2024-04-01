@@ -1,9 +1,13 @@
+import { CloudIcon } from "lucide-react";
+
 function Loading() {
   return (
-    <div className="mt-40 weather-country">
-      {/* <CloudIcon className="w-20 mx-auto animate-bounce"/> */}
-      <p className="pt-3">Loading weather...</p>
-    </div>
+    <>
+      <CloudIcon className="size-40 stroke-white mx-auto animate-bounce" />
+      <p className="text-center text-4xl bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-100 font-bold">
+        Loading weather...
+      </p>
+    </>
   );
 }
 

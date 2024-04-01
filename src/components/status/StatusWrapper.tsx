@@ -1,31 +1,60 @@
+import { FC } from "react";
 import { Icons } from "../../core";
 import StatusPill from "./StatusPill";
 
-const StatusWrapper = () => {
+interface IProps {
+  main: {
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+    humidity: number;
+  };
+  wind: {
+    speed: number;
+    deg: number;
+  };
+  clouds: { all: number };
+  weather: { main: string; description: string }[];
+}
+const StatusWrapper: FC<IProps> = ({ main, wind, clouds, weather }) => {
   return (
-    <div className="grid grid-cols-2 sm:flex flex-wrap justify-center items-center gap-6 size-full">
-      <StatusPill name="Temp" icon={<Icons.Temp />} value="32°C" />
-      <StatusPill name="Wind" icon={<Icons.Wind />} value="14.4km/h" />
-      <StatusPill name="Humidity" icon={<Icons.Humidity />} value="32.5%" />
+    <div className="grid grid-cols-2 sm:flex flex-wrap justify-center items-center gap-6 size-full mb-6">
+      <StatusPill
+        name="Temp"
+        icon={<Icons.Temp />}
+        value={`${Math.round(main?.temp) || 28}°C`}
+      />
+      <StatusPill
+        name="Wind"
+        icon={<Icons.Wind />}
+        value={`${wind?.speed || 0}km/h`}
+      />
+      <StatusPill
+        name="Humidity"
+        icon={<Icons.Humidity />}
+        value={`${Math.round(main?.humidity) || 28}%`}
+      />
       <StatusPill
         name="Wind Derection"
         icon={<Icons.WindDerection />}
-        value="14.4km/h"
+        value={`${wind?.speed || 0}km/h`}
       />
       <StatusPill
         name="Cloud Cover"
         icon={<Icons.CloudCover />}
-        value="32.5%"
+        value={`${clouds?.all || 0}%`}
       />
       <StatusPill
-        name="Precipitation"
+        name="pressure"
         icon={<Icons.Precipitation />}
-        value="0%"
+        value={`${main?.pressure || 0}hpa`}
       />
       <StatusPill
         name="condition"
         icon={<Icons.Condition />}
-        value="pertty cloudy"
+        value={`${(weather && weather[0]?.main) || "clear-day"}`}
       />
     </div>
   );
