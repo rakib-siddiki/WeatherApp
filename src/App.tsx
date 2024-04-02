@@ -63,7 +63,7 @@ const App = () => {
         ) : isError ? (
           <div>
             <h1 className="mb-8 text-3xl font-bold text-gray-700 font-pt">
-              Something went wrong
+              Location not found
             </h1>
           </div>
         ) : (
